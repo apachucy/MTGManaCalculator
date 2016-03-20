@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MTGManaCalculator</string>
+    <string name="mana_calculator_hint_land_total">Total Lands</string>
+
+    <string name="mana_calculator_hint_land_white">White mana</string>
+    <string name="mana_calculator_hint_land_blue">Blue mana</string>
+    <string name="mana_calculator_hint_land_black">Black mana</string>
+    <string name="mana_calculator_hint_land_red">Red mana</string>
+    <string name="mana_calculator_hint_land_green">Green mana</string>
+    <string name="mana_calculator_hint_land_colorless">Colorless mana</string>
+
+</resources>

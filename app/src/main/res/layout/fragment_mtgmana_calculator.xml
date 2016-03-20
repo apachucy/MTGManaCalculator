@@ -1,0 +1,297 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.fragment.MTGManaCalculatorActivityFragment">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/calculator_totalLandTextInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/edit_text_margin_small"
+                android:layout_marginLeft="@dimen/edit_text_margin_small"
+                android:layout_marginRight="@dimen/edit_text_margin_small"
+                android:ems="10"
+                android:hint="@string/mana_calculator_hint_land_total"
+                android:inputType="numberSigned"
+                android:maxLength="3"
+                android:singleLine="true" />
+        </android.support.design.widget.TextInputLayout>
+
+        <RelativeLayout
+            android:id="@+id/calculator_mana_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/calculator_totalLandTextInput"
+            android:layout_marginTop="@dimen/standard_margin">
+
+            <RelativeLayout
+                android:id="@+id/calculator_mana_input_wrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true">
+
+                <ImageView
+                    android:id="@+id/calculator_ic_mana_white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@mipmap/mana_white" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/calculator_whiteTextInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/calculator_ic_mana_white"
+                    android:layout_toRightOf="@id/calculator_ic_mana_white">
+
+                    <EditText
+                        android:layout_width="@dimen/edit_text_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/edit_text_margin_small"
+                        android:layout_marginRight="@dimen/edit_text_margin_small"
+                        android:ems="10"
+                        android:hint="@string/mana_calculator_hint_land_white"
+                        android:inputType="numberSigned"
+                        android:maxLength="2"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/calculator_ic_mana_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/calculator_whiteTextInput"
+                    android:layout_toRightOf="@id/calculator_whiteTextInput"
+                    android:src="@mipmap/mana_blue" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/calculator_blueTextInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/calculator_ic_mana_blue"
+                    android:layout_toRightOf="@id/calculator_ic_mana_blue">
+
+                    <EditText
+                        android:layout_width="@dimen/edit_text_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/edit_text_margin_small"
+                        android:layout_marginRight="@dimen/edit_text_margin_small"
+                        android:ems="10"
+                        android:hint="@string/mana_calculator_hint_land_blue"
+                        android:inputType="numberSigned"
+                        android:maxLength="2"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/calculator_mana_input_wrapper_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/calculator_mana_input_wrapper"
+                android:layout_centerHorizontal="true">
+
+                <ImageView
+                    android:id="@+id/calculator_ic_mana_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@mipmap/mana_black" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/calculator_blackTextInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/calculator_ic_mana_black"
+                    android:layout_toRightOf="@id/calculator_ic_mana_black">
+
+                    <EditText
+                        android:layout_width="@dimen/edit_text_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/edit_text_margin_small"
+                        android:layout_marginRight="@dimen/edit_text_margin_small"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:ems="10"
+                        android:hint="@string/mana_calculator_hint_land_black"
+                        android:inputType="numberSigned"
+                        android:maxLength="2"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/calculator_ic_mana_red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/calculator_blackTextInput"
+                    android:layout_toRightOf="@id/calculator_blackTextInput"
+                    android:src="@mipmap/mana_red" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/calculator_redTextInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/calculator_ic_mana_red"
+                    android:layout_toRightOf="@id/calculator_ic_mana_red">
+
+                    <EditText
+                        android:layout_width="@dimen/edit_text_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/edit_text_margin_small"
+                        android:layout_marginRight="@dimen/edit_text_margin_small"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:ems="10"
+                        android:hint="@string/mana_calculator_hint_land_red"
+                        android:inputType="numberSigned"
+                        android:maxLength="2"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/calculator_mana_input_wrapper_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/calculator_mana_input_wrapper_2"
+                android:layout_centerHorizontal="true">
+
+                <ImageView
+                    android:id="@+id/calculator_ic_mana_green"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@mipmap/mana_green" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/calculator_greenTextInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/calculator_ic_mana_green"
+                    android:layout_toRightOf="@id/calculator_ic_mana_green">
+
+                    <EditText
+                        android:layout_width="@dimen/edit_text_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/edit_text_margin_small"
+                        android:layout_marginRight="@dimen/edit_text_margin_small"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:ems="10"
+                        android:hint="@string/mana_calculator_hint_land_green"
+                        android:inputType="numberSigned"
+                        android:maxLength="2"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/calculator_ic_mana_colorless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/calculator_greenTextInput"
+                    android:layout_toRightOf="@id/calculator_greenTextInput"
+                    android:src="@mipmap/mana_green"
+                    android:visibility="invisible" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/calculator_colorlessTextInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/calculator_ic_mana_colorless"
+                    android:layout_toRightOf="@id/calculator_ic_mana_colorless">
+
+                    <EditText
+                        android:layout_width="@dimen/edit_text_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/edit_text_margin_small"
+                        android:layout_marginRight="@dimen/edit_text_margin_small"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:ems="10"
+                        android:hint="@string/mana_calculator_hint_land_colorless"
+                        android:inputType="numberSigned"
+                        android:maxLength="2"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/calculator_mana_input"
+            android:layout_marginTop="@dimen/standard_margin">
+
+            <TextView
+                android:id="@+id/calculator_mana_output_white"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/mana_white_small"
+
+                android:drawableStart="@drawable/mana_white_small"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/calculator_mana_output_blue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/mana_blue_small"
+
+                android:drawableStart="@drawable/mana_blue_small"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/calculator_mana_output_black"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/mana_black_small"
+
+                android:drawableStart="@drawable/mana_black_small"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/calculator_mana_output_red"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/mana_red_small"
+
+                android:drawableStart="@drawable/mana_red_small"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/calculator_mana_output_green"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/mana_green_small"
+                android:drawableStart="@drawable/mana_green_small"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/calculator_mana_output_colorless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                android:singleLine="true" />
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>
