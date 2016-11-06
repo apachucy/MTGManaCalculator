@@ -4,5 +4,11 @@
     <color name="colorPrimary">#4caf50</color>
     <color name="colorAccent">#66bb6a</color>
     <color name="windowBackground">#c8e6c9</color>
+    <color name="colorBlue">#003863</color>
+    <color name="colorBlack">#0F0F0F</color>
+    <color name="colorRed">#891B2F</color>
+    <color name="colorWhite">#898100</color>
+    <color name="colorColorless">#7E7E7E</color>
+    <color name="colorGreen">#087243</color>
 
 </resources>

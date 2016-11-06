@@ -8,9 +8,9 @@ android {
         applicationId "unii.mtg.mana.calculator"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 1
+        versionCode 3
         generatedDensities = []
-        versionName "0.1.0"
+        versionName "0.2.0"
     }
 
 // This is handled for you by the 2.0+ Gradle Plugin
@@ -34,4 +34,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.github.Androguide:HoloGraphLibrary:5562473'
+    compile 'org.adw.library:discrete-seekbar:1.0.1'
+    compile('com.github.afollestad.material-dialogs:core:0.8.5.6@aar') {
+        transitive = true
+    }
 }

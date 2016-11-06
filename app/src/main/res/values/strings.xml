@@ -1,12 +1,22 @@
 <resources>
-    <string name="app_name">MTGManaCalculator</string>
+    <string name="app_name">Mana Calculator</string>
     <string name="mana_calculator_hint_land_total">Total Lands</string>
 
-    <string name="mana_calculator_hint_land_white">White mana</string>
-    <string name="mana_calculator_hint_land_blue">Blue mana</string>
-    <string name="mana_calculator_hint_land_black">Black mana</string>
-    <string name="mana_calculator_hint_land_red">Red mana</string>
-    <string name="mana_calculator_hint_land_green">Green mana</string>
-    <string name="mana_calculator_hint_land_colorless">Colorless mana</string>
+    <string name="mana_calculator_hint_land_white">White</string>
+    <string name="mana_calculator_hint_land_blue">Blue</string>
+    <string name="mana_calculator_hint_land_black">Black</string>
+    <string name="mana_calculator_hint_land_red">Red </string>
+    <string name="mana_calculator_hint_land_green">Green</string>
+    <string name="mana_calculator_hint_land_colorless">Colorless</string>
 
+    <string name="menu_info">About</string>
+    <string name="menu_settings">Settings</string>
+    <string name="dialog_info_title">About</string>
+    <string name="dialog_info_body">This is fansite application that should help with selecting lands for your deck.
+        \nGraphic: Piotr Semeniuk</string>
+    <string name="dialog_positive_action">Ok</string>
+    <string name="dialog_spinner_max_value_title">Set Spinner Value</string>
+    <string name="dialog_spinner_max_value_body">Set maximum of mana symbol in one color for spinner</string>
+    <string name="dialog_spinner_hint">At least 15</string>
+    <string name="content_desc_mana_icon">Mana symbol</string>
 </resources>

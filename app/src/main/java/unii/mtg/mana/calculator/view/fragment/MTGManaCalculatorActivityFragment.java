@@ -1,14 +1,23 @@
 package unii.mtg.mana.calculator.view.fragment;
 
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.echo.holographlibrary.Bar;
+import com.echo.holographlibrary.BarGraph;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -16,62 +25,30 @@ import unii.mtg.mana.calculator.R;
 import unii.mtg.mana.calculator.logic.ManaCalculator;
 import unii.mtg.mana.calculator.model.ManaCalculatorInputModel;
 import unii.mtg.mana.calculator.model.ManaCalculatorOutputModel;
+import unii.mtg.mana.calculator.util.diagram.DiagramCreatorUtil;
+import unii.mtg.mana.calculator.view.model.DataUpdater;
+import unii.mtg.mana.calculator.view.model.mana.ManaInputHolder;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MTGManaCalculatorActivityFragment extends Fragment {
+public class MTGManaCalculatorActivityFragment extends BaseFragment {
+
+    private final static String TAG = MTGManaCalculatorActivityFragment.class.toString();
     private ManaCalculatorInputModel mManaCalculatorInputModel;
-
-
-    @Bind(R.id.calculator_mana_output_white)
-    TextView mWhiteLandsTextView;
-
-    @Bind(R.id.calculator_mana_output_blue)
-    TextView mBlueLandsTextView;
-
-    @Bind(R.id.calculator_mana_output_black)
-    TextView mBlackLandsTextView;
-
-    @Bind(R.id.calculator_mana_output_red)
-    TextView mRedLandsTextView;
-
-    @Bind(R.id.calculator_mana_output_green)
-    TextView mGreenLandsTextView;
-
-    @Bind(R.id.calculator_mana_output_colorless)
-    TextView mColorlessLandsTextView;
-
+    private static final int BAR_MIN_VALUE = 0;
+    private static final int BAR_MAX_VALUE = 30;
+    private int mMaxValue;
+    private ManaInputHolder mManaInputHolder;
 
     @Bind(R.id.calculator_totalLandTextInput)
     TextInputLayout mTotalLandsTextInput;
 
-
-    @Bind(R.id.calculator_whiteTextInput)
-    TextInputLayout mLandsWhiteTextInput;
-
-
-    @Bind(R.id.calculator_blueTextInput)
-    TextInputLayout mLandsBlueTextInput;
-
-
-    @Bind(R.id.calculator_blackTextInput)
-    TextInputLayout mLandsBlackTextInput;
-
-
-    @Bind(R.id.calculator_redTextInput)
-    TextInputLayout mLandsRedTextInput;
-
-
-    @Bind(R.id.calculator_greenTextInput)
-    TextInputLayout mLandsGreenTextInput;
-
-
-    @Bind(R.id.calculator_colorlessTextInput)
-    TextInputLayout mLandsColorlessTextInput;
-
+    @Bind(R.id.calculator_mana_output)
+    BarGraph mBarGraph;
 
     public MTGManaCalculatorActivityFragment() {
+        mMaxValue = BAR_MAX_VALUE;
     }
 
     @Override
@@ -79,35 +56,9 @@ public class MTGManaCalculatorActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mtgmana_calculator, container, false);
         ButterKnife.bind(this, view);
-        mTotalLandsTextInput.setHint(getString(R.string.mana_calculator_hint_land_total));
-        mLandsWhiteTextInput.setHint(getString(R.string.mana_calculator_hint_land_white));
-        mLandsBlueTextInput.setHint(getString(R.string.mana_calculator_hint_land_blue));
-        mLandsBlackTextInput.setHint(getString(R.string.mana_calculator_hint_land_black));
-        mLandsRedTextInput.setHint(getString(R.string.mana_calculator_hint_land_red));
-        mLandsGreenTextInput.setHint(getString(R.string.mana_calculator_hint_land_green));
-        mLandsColorlessTextInput.setHint(getString(R.string.mana_calculator_hint_land_colorless));
-        if (mTotalLandsTextInput.getEditText() != null) {
-            mTotalLandsTextInput.getEditText().addTextChangedListener(mLandTotalTextWatcher);
-        }
-        if (mLandsWhiteTextInput.getEditText() != null) {
-            mLandsWhiteTextInput.getEditText().addTextChangedListener(mManaWhiteTextWatcher);
-        }
-        if (mLandsBlueTextInput.getEditText() != null) {
-            mLandsBlueTextInput.getEditText().addTextChangedListener(mManaBlueTextWatcher);
-        }
-        if (mLandsBlackTextInput.getEditText() != null) {
-            mLandsBlackTextInput.getEditText().addTextChangedListener(mManaBlackTextWatcher);
-        }
-        if (mLandsRedTextInput.getEditText() != null) {
-            mLandsRedTextInput.getEditText().addTextChangedListener(mManaRedTextWatcher);
-        }
-        if (mLandsGreenTextInput.getEditText() != null) {
-            mLandsGreenTextInput.getEditText().addTextChangedListener(mManaGreenTextWatcher);
-        }
-        if (mLandsColorlessTextInput.getEditText() != null) {
-            mLandsColorlessTextInput.getEditText().addTextChangedListener(mManaColorlessTextWatcher);
-        }
-        mManaCalculatorInputModel = new ManaCalculatorInputModel();
+        setHasOptionsMenu(true);
+        initData();
+        initView(view);
         return view;
     }
 
@@ -117,34 +68,68 @@ public class MTGManaCalculatorActivityFragment extends Fragment {
         if (mTotalLandsTextInput.getEditText() != null) {
             mTotalLandsTextInput.getEditText().removeTextChangedListener(mLandTotalTextWatcher);
         }
-        if (mLandsWhiteTextInput.getEditText() != null) {
-            mLandsWhiteTextInput.getEditText().removeTextChangedListener(mManaWhiteTextWatcher);
-        }
-        if (mLandsBlueTextInput.getEditText() != null) {
-            mLandsBlueTextInput.getEditText().removeTextChangedListener(mManaBlueTextWatcher);
-        }
-        if (mLandsBlackTextInput.getEditText() != null) {
-            mLandsBlackTextInput.getEditText().removeTextChangedListener(mManaBlackTextWatcher);
-        }
-        if (mLandsRedTextInput.getEditText() != null) {
-            mLandsRedTextInput.getEditText().removeTextChangedListener(mManaRedTextWatcher);
-        }
-        if (mLandsGreenTextInput.getEditText() != null) {
-            mLandsGreenTextInput.getEditText().removeTextChangedListener(mManaGreenTextWatcher);
-        }
-        if (mLandsColorlessTextInput.getEditText() != null) {
-            mLandsColorlessTextInput.getEditText().removeTextChangedListener(mManaColorlessTextWatcher);
-        }
+        mManaInputHolder.onDestroy();
         ButterKnife.unbind(this);
     }
 
-    private void updateTextViews(ManaCalculatorOutputModel manaCalculatorOutputModel) {
-        mWhiteLandsTextView.setText(manaCalculatorOutputModel.getManaWhite() + "");
-        mBlueLandsTextView.setText(manaCalculatorOutputModel.getManaBlue() + "");
-        mBlackLandsTextView.setText(manaCalculatorOutputModel.getManaBlack() + "");
-        mRedLandsTextView.setText(manaCalculatorOutputModel.getManaRed() + "");
-        mGreenLandsTextView.setText(manaCalculatorOutputModel.getManaGreen() + "");
-        mColorlessLandsTextView.setText(manaCalculatorOutputModel.getManaColorless() + "");
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Do something that differs the Activity's menu here
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_info:
+                showInfoDialog(getActivity(), getString(R.string.dialog_info_title),
+                        getString(R.string.dialog_info_body), getString(R.string.dialog_positive_action));
+                return true;
+            case R.id.action_settings:
+                showInputDialog(getActivity(), getString(R.string.dialog_spinner_max_value_title),
+                        getString(R.string.dialog_spinner_max_value_body), getString(R.string.dialog_spinner_hint),
+                        Integer.toString(mMaxValue), mInputCallback);
+                return true;
+            default:
+                break;
+        }
+
+        return false;
+    }
+
+    private void initView(View view) {
+        mTotalLandsTextInput.setHint(getString(R.string.mana_calculator_hint_land_total));
+
+        if (mTotalLandsTextInput.getEditText() != null) {
+            mTotalLandsTextInput.getEditText().addTextChangedListener(mLandTotalTextWatcher);
+        }
+        mManaInputHolder = new ManaInputHolder(getActivity(), view, BAR_MIN_VALUE, BAR_MAX_VALUE, mDataUpdater);
+
+    }
+
+    private void initData() {
+        mManaCalculatorInputModel = new ManaCalculatorInputModel();
+
+    }
+
+    private DataUpdater mDataUpdater = new DataUpdater() {
+        @Override
+        public void onDataChanged() {
+            mManaCalculatorInputModel.setManaBlack(mManaInputHolder.getBlack().getCurrentValue());
+            mManaCalculatorInputModel.setManaBlue(mManaInputHolder.getBlue().getCurrentValue());
+            mManaCalculatorInputModel.setManaGreen(mManaInputHolder.getGreen().getCurrentValue());
+            mManaCalculatorInputModel.setManaRed(mManaInputHolder.getRed().getCurrentValue());
+            mManaCalculatorInputModel.setManaWhite(mManaInputHolder.getWhite().getCurrentValue());
+            mManaCalculatorInputModel.setManaColorless(mManaInputHolder.getColorLess().getCurrentValue());
+            mManaCalculatorInputModel.calculateTotalMana();
+            createDiagram(ManaCalculator.calculateLandsOutput(mManaCalculatorInputModel));
+        }
+    };
+
+    private void createDiagram(ManaCalculatorOutputModel manaCalculatorOutputModel) {
+        ArrayList<Bar> barArrayList = DiagramCreatorUtil.createDataForDiagram(getActivity(), manaCalculatorOutputModel, mManaCalculatorInputModel);
+        mBarGraph.setBars(barArrayList);
+        mBarGraph.setUnit(" ");
     }
 
     private TextWatcher mLandTotalTextWatcher = new TextWatcher() {
@@ -165,7 +150,8 @@ public class MTGManaCalculatorActivityFragment extends Fragment {
 
             }
             mManaCalculatorInputModel.setLandTotal(landTotal);
-            updateTextViews(ManaCalculator.calculateLandsOutput(mManaCalculatorInputModel));
+            mManaCalculatorInputModel.calculateTotalMana();
+            createDiagram(ManaCalculator.calculateLandsOutput(mManaCalculatorInputModel));
         }
 
         @Override
@@ -174,169 +160,20 @@ public class MTGManaCalculatorActivityFragment extends Fragment {
         }
     };
 
-    private TextWatcher mManaWhiteTextWatcher = new TextWatcher() {
+    private MaterialDialog.InputCallback mInputCallback = new MaterialDialog.InputCallback() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            int mana = 0;
-            if (s.length() > 0) {
-                try {
-                    mana = Integer.parseInt(s.toString());
-                } catch (NumberFormatException e) {
-                    mana = 0;
+        public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+            try {
+                int newMaxValue = Integer.parseInt(input.toString());
+                if (newMaxValue <= BAR_MIN_VALUE) {
+                    return;
                 }
-
+                mMaxValue = newMaxValue;
+                mManaInputHolder.setMaxBarValue(mMaxValue);
+            } catch (NumberFormatException e) {
+                Log.e(TAG, e.toString());
             }
-            mManaCalculatorInputModel.setManaWhite(mana);
-            mManaCalculatorInputModel.setManaTotal(ManaCalculator.calculateTotalManaCost(mManaCalculatorInputModel));
-            updateTextViews(ManaCalculator.calculateLandsOutput(mManaCalculatorInputModel));
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
         }
     };
 
-    private TextWatcher mManaBlueTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            int mana = 0;
-            if (s.length() > 0) {
-                try {
-                    mana = Integer.parseInt(s.toString());
-                } catch (NumberFormatException e) {
-                    mana = 0;
-                }
-
-            }
-            mManaCalculatorInputModel.setManaBlue(mana);
-            mManaCalculatorInputModel.setManaTotal(ManaCalculator.calculateTotalManaCost(mManaCalculatorInputModel));
-            updateTextViews(ManaCalculator.calculateLandsOutput(mManaCalculatorInputModel));
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
-    private TextWatcher mManaBlackTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            int mana = 0;
-            if (s.length() > 0) {
-                try {
-                    mana = Integer.parseInt(s.toString());
-                } catch (NumberFormatException e) {
-                    mana = 0;
-                }
-
-            }
-            mManaCalculatorInputModel.setManaBlack(mana);
-            mManaCalculatorInputModel.setManaTotal(ManaCalculator.calculateTotalManaCost(mManaCalculatorInputModel));
-            updateTextViews(ManaCalculator.calculateLandsOutput(mManaCalculatorInputModel));
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
-
-    private TextWatcher mManaRedTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            int mana = 0;
-            if (s.length() > 0) {
-                try {
-                    mana = Integer.parseInt(s.toString());
-                } catch (NumberFormatException e) {
-                    mana = 0;
-                }
-
-            }
-            mManaCalculatorInputModel.setManaRed(mana);
-            mManaCalculatorInputModel.setManaTotal(ManaCalculator.calculateTotalManaCost(mManaCalculatorInputModel));
-            updateTextViews(ManaCalculator.calculateLandsOutput(mManaCalculatorInputModel));
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
-    private TextWatcher mManaGreenTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            int mana = 0;
-            if (s.length() > 0) {
-                try {
-                    mana = Integer.parseInt(s.toString());
-                } catch (NumberFormatException e) {
-                    mana = 0;
-                }
-
-            }
-            mManaCalculatorInputModel.setManaGreen(mana);
-            mManaCalculatorInputModel.setManaTotal(ManaCalculator.calculateTotalManaCost(mManaCalculatorInputModel));
-            updateTextViews(ManaCalculator.calculateLandsOutput(mManaCalculatorInputModel));
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
-
-    private TextWatcher mManaColorlessTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            int mana = 0;
-            if (s.length() > 0) {
-                try {
-                    mana = Integer.parseInt(s.toString());
-                } catch (NumberFormatException e) {
-                    mana = 0;
-                }
-
-            }
-            mManaCalculatorInputModel.setManaColorless(mana);
-            mManaCalculatorInputModel.setManaTotal(ManaCalculator.calculateTotalManaCost(mManaCalculatorInputModel));
-            updateTextViews(ManaCalculator.calculateLandsOutput(mManaCalculatorInputModel));
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
 }

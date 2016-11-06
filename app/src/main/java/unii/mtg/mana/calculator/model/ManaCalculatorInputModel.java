@@ -93,4 +93,8 @@ public class ManaCalculatorInputModel {
     public void setManaColorless(int mColorlessMana) {
         this.mManaColorless = mColorlessMana;
     }
+
+    public void calculateTotalMana() {
+        mManaTotal = mManaBlack + mManaRed + mManaBlue + mManaWhite + mManaGreen + mManaColorless;
+    }
 }
