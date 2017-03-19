@@ -19,4 +19,7 @@
     <string name="dialog_spinner_max_value_body">Set maximum of mana symbol in one color for spinner</string>
     <string name="dialog_spinner_hint">At least 15</string>
     <string name="content_desc_mana_icon">Mana symbol</string>
+    <string name="guide_title">Help</string>
+    <string name="guide_description_lands">To know how much different mana you need please\nset how many lands will be in your deck</string>
+    <string name="guide_description_mana">Set on spinner how much mana in one color you have in you cards\ncard cost, activation ability, etc&#8230;\nat the bottom you will see bar chart</string>
 </resources>

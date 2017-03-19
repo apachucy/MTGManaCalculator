@@ -3,6 +3,7 @@ package unii.mtg.mana.calculator.view.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -21,10 +22,17 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import tourguide.tourguide.ChainTourGuide;
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.Sequence;
+import tourguide.tourguide.ToolTip;
 import unii.mtg.mana.calculator.R;
 import unii.mtg.mana.calculator.logic.ManaCalculator;
 import unii.mtg.mana.calculator.model.ManaCalculatorInputModel;
 import unii.mtg.mana.calculator.model.ManaCalculatorOutputModel;
+import unii.mtg.mana.calculator.persitance.BaseRunSharedPreferences;
+import unii.mtg.mana.calculator.persitance.IBaseRunPreferences;
 import unii.mtg.mana.calculator.util.diagram.DiagramCreatorUtil;
 import unii.mtg.mana.calculator.view.model.DataUpdater;
 import unii.mtg.mana.calculator.view.model.mana.ManaInputHolder;
@@ -33,6 +41,7 @@ import unii.mtg.mana.calculator.view.model.mana.ManaInputHolder;
  * A placeholder fragment containing a simple view.
  */
 public class MTGManaCalculatorActivityFragment extends BaseFragment {
+    private ChainTourGuide mTutorialHandler = null;
 
     private final static String TAG = MTGManaCalculatorActivityFragment.class.toString();
     private ManaCalculatorInputModel mManaCalculatorInputModel;
@@ -40,7 +49,8 @@ public class MTGManaCalculatorActivityFragment extends BaseFragment {
     private static final int BAR_MAX_VALUE = 30;
     private int mMaxValue;
     private ManaInputHolder mManaInputHolder;
-
+    private boolean mDisplayGuide;
+    private IBaseRunPreferences mGamePreferences;
     @Bind(R.id.calculator_totalLandTextInput)
     TextInputLayout mTotalLandsTextInput;
 
@@ -104,12 +114,16 @@ public class MTGManaCalculatorActivityFragment extends BaseFragment {
             mTotalLandsTextInput.getEditText().addTextChangedListener(mLandTotalTextWatcher);
         }
         mManaInputHolder = new ManaInputHolder(getActivity(), view, BAR_MIN_VALUE, BAR_MAX_VALUE, mDataUpdater);
+        if (mDisplayGuide) {
+            initGuide(view);
 
+        }
     }
 
     private void initData() {
         mManaCalculatorInputModel = new ManaCalculatorInputModel();
-
+        mGamePreferences = new BaseRunSharedPreferences(getActivity());
+        mDisplayGuide = mGamePreferences.isFirstRun();
     }
 
     private DataUpdater mDataUpdater = new DataUpdater() {
@@ -176,4 +190,36 @@ public class MTGManaCalculatorActivityFragment extends BaseFragment {
         }
     };
 
+    private void initGuide(View view) {
+        ChainTourGuide lands = getGuideForObject(getString(R.string.guide_title), getString(R.string.guide_description_lands), mTotalLandsTextInput);
+        ChainTourGuide manaSymbols = getGuideForObject(getString(R.string.guide_title), getString(R.string.guide_description_mana), view.findViewById(R.id.calculator_input));
+        mTutorialHandler = ChainTourGuide.init(getActivity()).playInSequence(createSequence(lands, manaSymbols));
+        mGamePreferences.setFirstRun(false);
+
+    }
+
+    private Sequence createSequence(ChainTourGuide lands, ChainTourGuide manaSymbols) {
+        return new Sequence.SequenceBuilder().add(lands, manaSymbols)
+                .setDefaultOverlay(new Overlay()
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mTutorialHandler.next();
+                            }
+                        })).setContinueMethod(Sequence.ContinueMethod.OverlayListener).
+                        setDefaultPointer(new Pointer())
+                .build();
+    }
+
+    private ChainTourGuide getGuideForObject(String title, String description, View chainedView) {
+        ToolTip toolTip = new ToolTip()
+                .setTitle(title)
+                .setDescription(description).setBackgroundColor(getSingleColor(R.color.colorAccent));
+        return new ChainTourGuide(getActivity()).setToolTip(toolTip).playLater(chainedView);
+    }
+
+    protected int getSingleColor(int colorRes) {
+        return ContextCompat.getColor(getActivity(), colorRes);
+    }
 }
+
