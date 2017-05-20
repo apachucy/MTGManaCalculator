@@ -45,6 +45,7 @@ public class MTGManaCalculatorActivityFragment extends BaseFragment {
 
     private final static String TAG = MTGManaCalculatorActivityFragment.class.toString();
     private ManaCalculatorInputModel mManaCalculatorInputModel;
+    private MaterialDialog mMaterialDialog;
     private static final int BAR_MIN_VALUE = 0;
     private static final int BAR_MAX_VALUE = 30;
     private int mMaxValue;
@@ -92,11 +93,11 @@ public class MTGManaCalculatorActivityFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_info:
-                showInfoDialog(getActivity(), getString(R.string.dialog_info_title),
+                mMaterialDialog = showInfoDialog(getActivity(), getString(R.string.dialog_info_title),
                         getString(R.string.dialog_info_body), getString(R.string.dialog_positive_action));
                 return true;
             case R.id.action_settings:
-                showInputDialog(getActivity(), getString(R.string.dialog_spinner_max_value_title),
+                mMaterialDialog = showInputDialog(getActivity(), getString(R.string.dialog_spinner_max_value_title),
                         getString(R.string.dialog_spinner_max_value_body), getString(R.string.dialog_spinner_hint),
                         Integer.toString(mMaxValue), mInputCallback);
                 return true;
@@ -220,6 +221,15 @@ public class MTGManaCalculatorActivityFragment extends BaseFragment {
 
     protected int getSingleColor(int colorRes) {
         return ContextCompat.getColor(getActivity(), colorRes);
+    }
+
+    @Override
+    public void onPause() {
+        if (mMaterialDialog != null) {
+            mMaterialDialog.dismiss();
+            mMaterialDialog = null;
+        }
+        super.onPause();
     }
 }
 

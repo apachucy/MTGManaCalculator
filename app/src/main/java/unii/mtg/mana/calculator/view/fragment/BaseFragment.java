@@ -11,16 +11,17 @@ import unii.mtg.mana.calculator.R;
 public class BaseFragment extends Fragment {
 
 
-    protected void showInputDialog(Context context, String title, String content, String hint, String lastValue, MaterialDialog.InputCallback inputCallback) {
-        new MaterialDialog.Builder(context).
+    protected MaterialDialog showInputDialog(Context context, String title, String content, String hint, String lastValue, MaterialDialog.InputCallback inputCallback) {
+        return new MaterialDialog.Builder(context).
                 title(title).content(content).inputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED)
-                .backgroundColorRes(R.color.windowBackground).input(hint, lastValue, inputCallback).
-                show();
+                .backgroundColorRes(R.color.windowBackground).input(hint, lastValue, inputCallback)
+                .show();
+
     }
 
 
-    protected void showInfoDialog(Context context, String title, String content, String positiveButtonText) {
-        new MaterialDialog.Builder(context)
+    protected MaterialDialog showInfoDialog(Context context, String title, String content, String positiveButtonText) {
+        return new MaterialDialog.Builder(context)
                 .title(title)
                 .content(content).backgroundColorRes(R.color.windowBackground)
                 .positiveText(positiveButtonText)
