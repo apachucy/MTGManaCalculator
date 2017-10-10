@@ -29,7 +29,6 @@
 
         </android.support.design.widget.TextInputLayout>
 
-
         <LinearLayout
             android:id="@+id/calculator_input"
             android:layout_width="match_parent"
@@ -76,11 +75,18 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
+        <include
+            android:id="@+id/guild_view_description"
+            layout="@layout/guild_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/calculator_input"
+            android:visibility="gone" />
 
         <com.echo.holographlibrary.BarGraph
             android:id="@+id/calculator_mana_output"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bar_height"
-            android:layout_below="@id/calculator_input" />
+            android:layout_below="@id/guild_view_description" />
     </RelativeLayout>
 </ScrollView>

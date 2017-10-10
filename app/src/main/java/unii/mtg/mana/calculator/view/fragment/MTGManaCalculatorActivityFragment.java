@@ -13,6 +13,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.echo.holographlibrary.Bar;
@@ -28,7 +30,9 @@ import tourguide.tourguide.Pointer;
 import tourguide.tourguide.Sequence;
 import tourguide.tourguide.ToolTip;
 import unii.mtg.mana.calculator.R;
+import unii.mtg.mana.calculator.logic.GuildTypeCalculator;
 import unii.mtg.mana.calculator.logic.ManaCalculator;
+import unii.mtg.mana.calculator.model.Guild;
 import unii.mtg.mana.calculator.model.ManaCalculatorInputModel;
 import unii.mtg.mana.calculator.model.ManaCalculatorOutputModel;
 import unii.mtg.mana.calculator.persitance.BaseRunSharedPreferences;
@@ -41,22 +45,29 @@ import unii.mtg.mana.calculator.view.model.mana.ManaInputHolder;
  * A placeholder fragment containing a simple view.
  */
 public class MTGManaCalculatorActivityFragment extends BaseFragment {
-    private ChainTourGuide mTutorialHandler = null;
 
-    private final static String TAG = MTGManaCalculatorActivityFragment.class.toString();
-    private ManaCalculatorInputModel mManaCalculatorInputModel;
-    private MaterialDialog mMaterialDialog;
+    private static final String TAG = MTGManaCalculatorActivityFragment.class.toString();
     private static final int BAR_MIN_VALUE = 0;
     private static final int BAR_MAX_VALUE = 30;
+
+    private ChainTourGuide mTutorialHandler = null;
+    private ManaCalculatorInputModel mManaCalculatorInputModel;
+    private MaterialDialog mMaterialDialog;
     private int mMaxValue;
     private ManaInputHolder mManaInputHolder;
     private boolean mDisplayGuide;
     private IBaseRunPreferences mGamePreferences;
+
     @Bind(R.id.calculator_totalLandTextInput)
     TextInputLayout mTotalLandsTextInput;
-
     @Bind(R.id.calculator_mana_output)
     BarGraph mBarGraph;
+    @Bind(R.id.ic_guild)
+    ImageView mGuildImage;
+    @Bind(R.id.guild_view_description)
+    View mGuildDescription;
+    @Bind(R.id.guild_description)
+    TextView mGuildText;
 
     public MTGManaCalculatorActivityFragment() {
         mMaxValue = BAR_MAX_VALUE;
@@ -137,14 +148,31 @@ public class MTGManaCalculatorActivityFragment extends BaseFragment {
             mManaCalculatorInputModel.setManaWhite(mManaInputHolder.getWhite().getCurrentValue());
             mManaCalculatorInputModel.setManaColorless(mManaInputHolder.getColorLess().getCurrentValue());
             mManaCalculatorInputModel.calculateTotalMana();
-            createDiagram(ManaCalculator.calculateLandsOutput(mManaCalculatorInputModel));
+            displayResults(ManaCalculator.calculateLandsOutput(mManaCalculatorInputModel));
         }
     };
+
+    private void displayResults(ManaCalculatorOutputModel manaCalculatorOutputModel) {
+        createGuildDescription(manaCalculatorOutputModel);
+        createDiagram(manaCalculatorOutputModel);
+    }
 
     private void createDiagram(ManaCalculatorOutputModel manaCalculatorOutputModel) {
         ArrayList<Bar> barArrayList = DiagramCreatorUtil.createDataForDiagram(getActivity(), manaCalculatorOutputModel, mManaCalculatorInputModel);
         mBarGraph.setBars(barArrayList);
         mBarGraph.setUnit(" ");
+    }
+
+    private void createGuildDescription(ManaCalculatorOutputModel manaCalculatorOutputModel) {
+        Guild resource = GuildTypeCalculator.calculateImageResource(manaCalculatorOutputModel);
+        if (resource.getImageRes() == GuildTypeCalculator.RES_NOT_FOUND) {
+            mGuildDescription.setVisibility(View.GONE);
+            return;
+        }
+        mGuildDescription.setVisibility(View.VISIBLE);
+        mGuildImage.setImageDrawable(ContextCompat.getDrawable(getActivity(), resource.getImageRes()));
+        mGuildText.setText(getString(resource.getGuildName()));
+
     }
 
     private TextWatcher mLandTotalTextWatcher = new TextWatcher() {
@@ -166,7 +194,7 @@ public class MTGManaCalculatorActivityFragment extends BaseFragment {
             }
             mManaCalculatorInputModel.setLandTotal(landTotal);
             mManaCalculatorInputModel.calculateTotalMana();
-            createDiagram(ManaCalculator.calculateLandsOutput(mManaCalculatorInputModel));
+            displayResults(ManaCalculator.calculateLandsOutput(mManaCalculatorInputModel));
         }
 
         @Override

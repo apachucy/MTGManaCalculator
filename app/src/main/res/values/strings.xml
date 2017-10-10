@@ -22,4 +22,21 @@
     <string name="guide_title">Help</string>
     <string name="guide_description_lands">To know how much different mana you need please\nset how many lands will be in your deck</string>
     <string name="guide_description_mana">Set on spinner how much mana in one color you have in you cards\ncard cost, activation ability, etc&#8230;\nat the bottom you will see bar chart</string>
+    <string name="guild_icon_description">Guild icon</string>
+
+    <string name="guild_abzan">Abzan</string>
+    <string name="guild_selesnya">Selesnya</string>
+    <string name="guild_boros">Boros</string>
+    <string name="guild_orzhov">Orzhov</string>
+    <string name="guild_azorius">Azorius</string>
+    <string name="guild_jeskai">Jeskai</string>
+    <string name="guild_simic">Simic</string>
+    <string name="guild_golgari">Golgari</string>
+    <string name="guild_gruul">Gruul</string>
+    <string name="guild_temur">Temur</string>
+    <string name="guild_izzet">Izzet</string>
+    <string name="guild_rakdos">Rakdos</string>
+    <string name="guild_mardu">Mardu</string>
+    <string name="guild_dimir">Dimir</string>
+    <string name="guild_sultai">Sultai</string>
 </resources>
