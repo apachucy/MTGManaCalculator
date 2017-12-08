@@ -8,5 +8,6 @@
     <dimen name="standard_margin">15dp</dimen>
     <dimen name="edit_text_width">80dp</dimen>
     <dimen name="bar_height">150dp</dimen>
+    <dimen name="guild_view_width">200dp</dimen>
     <dimen name="padding_normal">5dp</dimen>
 </resources>

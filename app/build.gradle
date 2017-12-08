@@ -10,7 +10,7 @@ android {
         targetSdkVersion 23
         versionCode 6
         generatedDensities = []
-        versionName "0.2.3"
+        versionName "0.2.4-guild"
     }
 
 // This is handled for you by the 2.0+ Gradle Plugin

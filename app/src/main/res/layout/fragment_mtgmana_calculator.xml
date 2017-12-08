@@ -78,9 +78,10 @@
         <include
             android:id="@+id/guild_view_description"
             layout="@layout/guild_description"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/guild_view_width"
             android:layout_height="wrap_content"
-            android:layout_below="@id/calculator_input"
+            android:layout_below="@+id/calculator_input"
+            android:layout_centerHorizontal="true"
             android:visibility="gone" />
 
         <com.echo.holographlibrary.BarGraph
