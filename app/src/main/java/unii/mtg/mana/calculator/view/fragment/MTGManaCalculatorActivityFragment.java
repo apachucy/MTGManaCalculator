@@ -22,8 +22,9 @@ import com.echo.holographlibrary.BarGraph;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import tourguide.tourguide.ChainTourGuide;
 import tourguide.tourguide.Overlay;
 import tourguide.tourguide.Pointer;
@@ -57,16 +58,17 @@ public class MTGManaCalculatorActivityFragment extends BaseFragment {
     private ManaInputHolder mManaInputHolder;
     private boolean mDisplayGuide;
     private IBaseRunPreferences mGamePreferences;
+    private Unbinder mUnbinder;
 
-    @Bind(R.id.calculator_totalLandTextInput)
+    @BindView(R.id.calculator_totalLandTextInput)
     TextInputLayout mTotalLandsTextInput;
-    @Bind(R.id.calculator_mana_output)
+    @BindView(R.id.calculator_mana_output)
     BarGraph mBarGraph;
-    @Bind(R.id.ic_guild)
+    @BindView(R.id.ic_guild)
     ImageView mGuildImage;
-    @Bind(R.id.guild_view_description)
+    @BindView(R.id.guild_view_description)
     View mGuildDescription;
-    @Bind(R.id.guild_description)
+    @BindView(R.id.guild_description)
     TextView mGuildText;
 
     public MTGManaCalculatorActivityFragment() {
@@ -77,7 +79,7 @@ public class MTGManaCalculatorActivityFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mtgmana_calculator, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
         initData();
         initView(view);
@@ -91,7 +93,7 @@ public class MTGManaCalculatorActivityFragment extends BaseFragment {
             mTotalLandsTextInput.getEditText().removeTextChangedListener(mLandTotalTextWatcher);
         }
         mManaInputHolder.onDestroy();
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
     }
 
     @Override

@@ -1,16 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "unii.mtg.mana.calculator"
         minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 6
+        targetSdkVersion 27
+        versionCode 7
         generatedDensities = []
-        versionName "0.2.4-guild"
+        versionName "0.2.5-dependency-update"
     }
 
 // This is handled for you by the 2.0+ Gradle Plugin
@@ -29,15 +29,21 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.github.Androguide:HoloGraphLibrary:5562473'
-    compile 'org.adw.library:discrete-seekbar:1.0.1'
-    compile('com.afollestad.material-dialogs:core:0.9.4.5') {
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation ('com.github.Androguide:HoloGraphLibrary:5562473'){
+        transitive = true
+
+    }
+    implementation ('org.adw.library:discrete-seekbar:1.0.1'){
         transitive = true
     }
-    compile ('com.github.worker8:tourguide:1.0.17-SNAPSHOT@aar'){
-        transitive=true
+    implementation('com.afollestad.material-dialogs:core:0.9.6.0') {
+        transitive = true
+    }
+    implementation('com.github.worker8:tourguide:1.0.17-SNAPSHOT@aar') {
+        transitive = true
     }
 }
