@@ -2,7 +2,7 @@ package unii.mtg.mana.calculator.util.diagram;
 
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 
 import com.echo.holographlibrary.Bar;
 

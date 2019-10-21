@@ -1,7 +1,7 @@
 package unii.mtg.mana.calculator.view.fragment;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.text.InputType;
 
 import com.afollestad.materialdialogs.MaterialDialog;

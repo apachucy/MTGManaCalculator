@@ -3,7 +3,7 @@ package unii.mtg.mana.calculator.view.model.mana;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.view.View;
 
 import unii.mtg.mana.calculator.R;
