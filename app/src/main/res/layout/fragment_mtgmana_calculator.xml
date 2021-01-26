@@ -39,7 +39,19 @@
             android:paddingTop="@dimen/padding_normal">
 
             <include
+                android:id="@+id/mana_input_white"
+                layout="@layout/mana_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
                 android:id="@+id/mana_input_blue"
+                layout="@layout/mana_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/mana_input_black"
                 layout="@layout/mana_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -52,18 +64,6 @@
 
             <include
                 android:id="@+id/mana_input_green"
-                layout="@layout/mana_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                android:id="@+id/mana_input_black"
-                layout="@layout/mana_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                android:id="@+id/mana_input_white"
                 layout="@layout/mana_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
